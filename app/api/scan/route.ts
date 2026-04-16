@@ -1,4 +1,3 @@
-import { NextRequest } from "next/server";
 import { TRACKED_TOPICS, ESCALATION_WINDOW_HOURS } from "@/lib/config";
 import { scrapeTopic, insertArticles, getExistingUrls } from "@/lib/scraper";
 import { computeTopicStats } from "@/lib/escalation";
@@ -21,12 +20,7 @@ async function getRecentArticles(topic: string) {
   return data || [];
 }
 
-export async function GET(request: NextRequest) {
-  const authHeader = request.headers.get("authorization");
-  const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
-  }
+export async function GET() {
 
   const seenUrls = await getExistingUrls();
   const results: Array<{
