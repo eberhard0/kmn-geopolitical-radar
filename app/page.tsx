@@ -63,6 +63,13 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [lastRefresh, setLastRefresh] = useState<Date>(new Date());
   const [scanning, setScanning] = useState(false);
+  const [scanProgress, setScanProgress] = useState<{
+    current: number;
+    total: number;
+    topic: string;
+    queries: string[];
+    completed: Array<{ topic: string; fetched: number; inserted: number }>;
+  } | null>(null);
 
   const fetchData = useCallback(async () => {
     try {
@@ -81,11 +88,61 @@ export default function Dashboard() {
 
   const triggerScan = async () => {
     setScanning(true);
+    setScanProgress({ current: 0, total: 0, topic: "Initializing...", queries: [], completed: [] });
+
     try {
-      await fetch("/api/scan");
-      await fetchData();
+      const res = await fetch("/api/scan");
+      const reader = res.body?.getReader();
+      if (!reader) return;
+
+      const decoder = new TextDecoder();
+      let buffer = "";
+      const completed: Array<{ topic: string; fetched: number; inserted: number }> = [];
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n\n");
+        buffer = lines.pop() || "";
+
+        for (const line of lines) {
+          const match = line.match(/^data: (.+)$/m);
+          if (!match) continue;
+
+          try {
+            const event = JSON.parse(match[1]);
+
+            if (event.type === "start") {
+              setScanProgress((p) => p ? { ...p, total: event.total } : null);
+            } else if (event.type === "scanning") {
+              setScanProgress((p) => p ? {
+                ...p,
+                current: event.current,
+                total: event.total,
+                topic: event.topic,
+                queries: event.queries || [],
+                completed,
+              } : null);
+            } else if (event.type === "done") {
+              completed.push({
+                topic: event.topic,
+                fetched: event.fetched,
+                inserted: event.inserted,
+              });
+              setScanProgress((p) => p ? { ...p, completed: [...completed] } : null);
+            } else if (event.type === "complete") {
+              await fetchData();
+            }
+          } catch {
+            // Skip malformed events
+          }
+        }
+      }
     } finally {
       setScanning(false);
+      setScanProgress(null);
     }
   };
 
@@ -141,6 +198,62 @@ export default function Dashboard() {
           />
         </div>
       </div>
+
+      {/* Scan Progress */}
+      {scanning && scanProgress && (
+        <div className="mb-6 border border-blue-500/30 bg-blue-500/5 rounded-lg p-4">
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="text-blue-400 font-bold text-sm uppercase tracking-wider">
+              Scanning in Progress
+            </h2>
+            <span className="text-xs text-slate-400">
+              {scanProgress.current} / {scanProgress.total} topics
+            </span>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="w-full bg-slate-700 rounded-full h-3 mb-3 overflow-hidden">
+            <div
+              className="bg-blue-500 h-3 rounded-full transition-all duration-500 ease-out"
+              style={{
+                width: `${scanProgress.total > 0 ? (scanProgress.current / scanProgress.total) * 100 : 0}%`,
+              }}
+            />
+          </div>
+
+          {/* Current Topic */}
+          <div className="mb-2">
+            <span className="text-sm text-white font-semibold">
+              {scanProgress.topic}
+            </span>
+            {scanProgress.queries.length > 0 && (
+              <div className="text-xs text-slate-400 mt-1">
+                Searching: {scanProgress.queries.map((q, i) => (
+                  <span key={i}>
+                    {i > 0 && " | "}
+                    <span className="text-slate-300">{q}</span>
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Completed Topics */}
+          {scanProgress.completed.length > 0 && (
+            <div className="mt-3 space-y-1">
+              {scanProgress.completed.map((c, i) => (
+                <div key={i} className="flex items-center gap-2 text-xs">
+                  <span className="text-green-400">&#10003;</span>
+                  <span className="text-slate-300">{c.topic}</span>
+                  <span className="text-slate-500">
+                    {c.fetched} found, {c.inserted} new
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Alert Banner */}
       {alerts.length > 0 && (
