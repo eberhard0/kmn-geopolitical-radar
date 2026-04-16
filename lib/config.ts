@@ -41,4 +41,13 @@ export const TRACKED_TOPICS = [
     name: "Myanmar Crisis",
     queries: ["Myanmar conflict", "krisis Myanmar", "Myanmar civil war"],
   },
+  {
+    name: "Truth Social",
+    queries: [
+      "Truth Social Trump post",
+      "Trump Truth Social announcement",
+      "Truth Social statement policy",
+      "Truth Social market impact",
+    ],
+  },
 ];
