@@ -43,7 +43,7 @@ export interface TopicStats {
   neutral_pct: number;
   slope: number;
   trend: string;
-  sample_headlines: string[];
+  sample_headlines: Array<{ title: string; url: string; source: string; score: number }>;
 }
 
 export function computeTopicStats(articles: Article[]): TopicStats {
@@ -56,7 +56,7 @@ export function computeTopicStats(articles: Article[]): TopicStats {
       neutral_pct: 0,
       slope: 0,
       trend: "NO DATA",
-      sample_headlines: [],
+      sample_headlines: [] as TopicStats["sample_headlines"],
     };
   }
 
@@ -85,6 +85,11 @@ export function computeTopicStats(articles: Article[]): TopicStats {
     neutral_pct: Math.round((neutral / total) * 1000) / 10,
     slope: Math.round(slope * 10000) / 10000,
     trend,
-    sample_headlines: articles.slice(0, 5).map((a) => a.title),
+    sample_headlines: articles.slice(0, 5).map((a) => ({
+      title: a.title,
+      url: a.url,
+      source: a.source,
+      score: a.compound_score,
+    })),
   };
 }

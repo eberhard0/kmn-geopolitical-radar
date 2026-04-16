@@ -10,7 +10,7 @@ interface TopicStats {
   neutral_pct: number;
   slope: number;
   trend: string;
-  sample_headlines: string[];
+  sample_headlines: Array<{ title: string; url: string; source: string; score: number }>;
 }
 
 interface TopicData {
@@ -282,7 +282,16 @@ export default function Dashboard() {
                   <div className="ml-8 mt-1 text-xs text-slate-400">
                     {a.stats.sample_headlines.slice(0, 2).map((h, i) => (
                       <div key={i} className="truncate">
-                        - {h}
+                        -{" "}
+                        <a
+                          href={h.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-blue-400 underline"
+                        >
+                          {h.title}
+                        </a>
+                        <span className="text-slate-600 ml-1">({h.source})</span>
                       </div>
                     ))}
                   </div>
@@ -382,15 +391,30 @@ export default function Dashboard() {
                 </div>
                 <div className="space-y-1">
                   {t.stats.sample_headlines.length > 0 ? (
-                    t.stats.sample_headlines.slice(0, 4).map((h, i) => (
-                      <p
-                        key={i}
-                        className="text-xs text-slate-400 truncate"
-                        title={h}
-                      >
-                        {h}
-                      </p>
-                    ))
+                    t.stats.sample_headlines.slice(0, 4).map((h, i) => {
+                      const scoreColor =
+                        h.score > 0.05
+                          ? "text-green-500"
+                          : h.score < -0.05
+                            ? "text-red-500"
+                            : "text-slate-600";
+                      return (
+                        <div key={i} className="flex items-start gap-1.5 text-xs">
+                          <span className={`${scoreColor} shrink-0 w-10 text-right font-mono`}>
+                            {h.score > 0 ? "+" : ""}{h.score.toFixed(2)}
+                          </span>
+                          <a
+                            href={h.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-slate-400 hover:text-blue-400 underline truncate"
+                            title={h.title}
+                          >
+                            {h.title}
+                          </a>
+                        </div>
+                      );
+                    })
                   ) : (
                     <p className="text-xs text-slate-600">
                       No recent articles
