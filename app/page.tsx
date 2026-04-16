@@ -105,7 +105,7 @@ export default function Dashboard() {
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-            <span className="text-blue-400">KMN</span> GEOPOLITICAL RADAR
+            <span className="text-blue-400">KG Media</span> GEOPOLITICAL RADAR
           </h1>
           <p className="text-sm text-slate-500 mt-1">
             Predictive Editorial Intelligence
@@ -292,7 +292,7 @@ export default function Dashboard() {
 
       {/* Footer */}
       <div className="mt-8 text-center text-xs text-slate-600">
-        &copy; Eberhard Ojong 2026 | KMN Geopolitical Radar v1.0 | Auto-refreshes every 30s | Cron scan
+        &copy; Eberhard Ojong 2026 | KG Media Geopolitical Radar v1.0 | Auto-refreshes every 30s | Cron scan
         daily |{" "}
         <a href="/faq" className="text-blue-400 hover:text-blue-300 underline">
           FAQ

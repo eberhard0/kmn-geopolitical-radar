@@ -8,8 +8,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "KMN Geopolitical Radar",
-  description: "Predictive editorial intelligence for KG Media News",
+  title: "KG Media Geopolitical Radar",
+  description: "Predictive editorial intelligence by KG Media",
 };
 
 export default function RootLayout({

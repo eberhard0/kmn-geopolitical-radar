@@ -6,7 +6,7 @@ export default function FAQ() {
           &larr; Back to Dashboard
         </a>
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight mt-4">
-          <span className="text-blue-400">KMN</span> GEOPOLITICAL RADAR — FAQ
+          <span className="text-blue-400">KG Media</span> GEOPOLITICAL RADAR — FAQ
         </h1>
         <p className="text-sm text-slate-500 mt-1">
           How to read and use the dashboard
@@ -179,7 +179,7 @@ export default function FAQ() {
 
       {/* Footer */}
       <div className="mt-12 text-center text-xs text-slate-600">
-        &copy; Eberhard Ojong 2026 | KMN Geopolitical Radar v1.0 | KG Media News
+        &copy; Eberhard Ojong 2026 | KG Media Geopolitical Radar v1.0 | KG Media News
       </div>
     </main>
   );
