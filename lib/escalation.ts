@@ -69,8 +69,20 @@ export function computeTopicStats(articles: Article[]): TopicStats {
 
   const compounds = articles.map((a) => a.compound_score);
   const avg = compounds.reduce((s, c) => s + c, 0) / compounds.length;
-  const slope = computeSlope(dataPoints);
-  const trend = classifyTrend(slope);
+
+  const hoursSpan =
+    dataPoints.length > 0
+      ? Math.max(...dataPoints.map((p) => p.hoursAgo)) -
+        Math.min(...dataPoints.map((p) => p.hoursAgo))
+      : 0;
+
+  const hasEnoughData = hoursSpan >= 3 && dataPoints.length >= 5;
+  let slope = hasEnoughData ? computeSlope(dataPoints) : 0;
+
+  if (slope > 0.5) slope = 0.5;
+  if (slope < -0.5) slope = -0.5;
+
+  const trend = hasEnoughData ? classifyTrend(slope) : "STABLE";
 
   const positive = compounds.filter((c) => c >= 0.05).length;
   const negative = compounds.filter((c) => c <= -0.05).length;
