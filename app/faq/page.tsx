@@ -150,9 +150,12 @@ export default function FAQ() {
         <div className="text-sm text-slate-300 space-y-3">
           <p>
             Each news headline is analyzed using{" "}
-            <span className="font-semibold text-white">VADER</span> (Valence
-            Aware Dictionary and sEntiment Reasoner), an NLP tool that scores
-            text sentiment. The score ranges from -1.0 to +1.0:
+            <span className="font-semibold text-white">FinBERT</span>, a
+            transformer-based NLP model trained specifically on financial and
+            geopolitical text. FinBERT replaced the earlier VADER analyzer in
+            v1.0.3 for significantly better accuracy — it understands context,
+            nuance, and domain-specific language that rule-based tools miss.
+            The score ranges from -1.0 to +1.0:
           </p>
           <div className="grid grid-cols-3 gap-3 text-center">
             <div className="bg-red-500/10 border border-red-500/30 rounded p-3">
