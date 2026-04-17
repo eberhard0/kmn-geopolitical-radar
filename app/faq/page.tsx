@@ -30,65 +30,80 @@ export default function FAQ() {
               <tr className="border-t border-slate-700/30">
                 <td className="p-3 font-semibold text-white">Topic</td>
                 <td className="p-3">
-                  The geopolitical subject being tracked (e.g., South China Sea,
-                  China-Taiwan, Commodity Prices)
+                  The geopolitical subject being monitored (e.g., South China
+                  Sea, Trade Policy, Truth Social).
                 </td>
               </tr>
               <tr className="border-t border-slate-700/30 bg-slate-800/20">
                 <td className="p-3 font-semibold text-white">Avg Score</td>
                 <td className="p-3">
-                  Average sentiment score from{" "}
+                  The average sentiment score across all articles in the last 24
+                  hours. Ranges from{" "}
                   <span className="text-red-400">-1.0</span> (very negative) to{" "}
                   <span className="text-green-400">+1.0</span> (very positive).
-                  Green means positive coverage, red means negative coverage.
+                  Calculated by averaging the FinBERT score of every headline
+                  for that topic.
                 </td>
               </tr>
               <tr className="border-t border-slate-700/30">
                 <td className="p-3 font-semibold text-white">Trend</td>
                 <td className="p-3">
-                  <span className="text-slate-400 font-bold">STABLE</span> — no
-                  significant change.{" "}
+                  The current classification based on how fast sentiment is
+                  changing:{" "}
+                  <span className="text-slate-400 font-bold">STABLE</span> —
+                  sentiment isn&apos;t moving significantly.{" "}
                   <span className="text-yellow-400 font-bold">ESCALATING</span>{" "}
-                  — sentiment is getting worse fast.{" "}
+                  — sentiment is getting worse at a notable rate.{" "}
+                  <span className="text-red-400 font-bold">CRITICAL</span> —
+                  sentiment is deteriorating very fast, something may be
+                  unfolding.{" "}
                   <span className="text-green-400 font-bold">
                     DE-ESCALATING
                   </span>{" "}
-                  — sentiment is improving.{" "}
-                  <span className="text-red-400 font-bold">CRITICAL</span> —
-                  rapidly deteriorating, prepare an article immediately.
+                  — sentiment is improving, tensions may be easing.
                 </td>
               </tr>
               <tr className="border-t border-slate-700/30 bg-slate-800/20">
                 <td className="p-3 font-semibold text-white">Slope</td>
                 <td className="p-3">
-                  How fast sentiment is changing per hour. For example,{" "}
-                  <code className="bg-slate-700 px-1 rounded">-0.05/hr</code>{" "}
-                  means sentiment drops 0.05 points every hour. Arrows show
-                  direction: ▼▼▼ (falling fast), ▲ (rising slowly), ─ (flat).
+                  The speed and direction of sentiment change, measured in points
+                  per hour. Think of it as the &quot;velocity&quot; of sentiment.
+                  For example:{" "}
+                  <code className="bg-slate-700 px-1 rounded">-0.08/hr</code>{" "}
+                  means sentiment drops 0.08 points every hour — coverage is
+                  turning more negative.{" "}
+                  <code className="bg-slate-700 px-1 rounded">+0.03/hr</code>{" "}
+                  means sentiment improves 0.03 points every hour.{" "}
+                  <code className="bg-slate-700 px-1 rounded">0.0000/hr</code>{" "}
+                  means sentiment is flat. Arrows visualize the slope: ▼▼▼
+                  (falling fast), ▼ (falling slowly), ─ (flat), ▲ (rising
+                  slowly), ▲▲▲ (rising fast). The slope is what determines the
+                  Trend classification.
                 </td>
               </tr>
               <tr className="border-t border-slate-700/30">
                 <td className="p-3 font-semibold text-white">Articles</td>
                 <td className="p-3">
-                  Number of news articles analyzed in the last 24 hours for this
-                  topic.
+                  Total number of news articles analyzed for this topic in the
+                  last 24 hours.
                 </td>
               </tr>
               <tr className="border-t border-slate-700/30 bg-slate-800/20">
                 <td className="p-3 font-semibold text-white">+%</td>
                 <td className="p-3">
-                  Percentage of articles with positive sentiment.
+                  Percentage of articles scored as positive (score above +0.05).
                 </td>
               </tr>
               <tr className="border-t border-slate-700/30">
                 <td className="p-3 font-semibold text-white">-%</td>
                 <td className="p-3">
-                  Percentage of articles with negative sentiment.
+                  Percentage of articles scored as negative (score below -0.05).
                 </td>
               </tr>
               <tr className="border-t border-slate-700/30 bg-slate-800/20">
                 <td className="p-3 font-semibold text-white">Alert</td>
                 <td className="p-3">
+                  Quick visual indicator:{" "}
                   <span className="text-red-400 font-bold">!!!</span> =
                   CRITICAL,{" "}
                   <span className="text-yellow-400 font-bold">!!</span> =
@@ -153,7 +168,7 @@ export default function FAQ() {
             <span className="font-semibold text-white">FinBERT</span>, a
             transformer-based NLP model trained specifically on financial and
             geopolitical text. FinBERT replaced the earlier VADER analyzer in
-            v1.0.3 for significantly better accuracy — it understands context,
+            v1.0.4 for significantly better accuracy — it understands context,
             nuance, and domain-specific language that rule-based tools miss.
             The score ranges from -1.0 to +1.0:
           </p>
@@ -184,7 +199,7 @@ export default function FAQ() {
       <div className="mt-12 text-center text-xs text-slate-600">
         &copy; Eberhard Ojong 2026 | KG Media Geopolitical Radar{" "}
         <a href="/changelog" className="text-blue-400 hover:text-blue-300 underline">
-          v1.0.3
+          v1.0.4
         </a>{" "}
         | KG Media News
       </div>
