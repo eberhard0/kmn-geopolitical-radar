@@ -164,13 +164,17 @@ export default function FAQ() {
         </h2>
         <div className="text-sm text-slate-300 space-y-3">
           <p>
-            Each news headline is analyzed using{" "}
-            <span className="font-semibold text-white">FinBERT</span>, a
-            transformer-based NLP model trained specifically on financial and
-            geopolitical text. FinBERT replaced the earlier VADER analyzer in
-            v1.0.4 for significantly better accuracy — it understands context,
-            nuance, and domain-specific language that rule-based tools miss.
-            The score ranges from -1.0 to +1.0:
+            Each news headline is analyzed using two AI models based on
+            language detection:{" "}
+            <span className="font-semibold text-white">FinBERT</span> for
+            English headlines (trained on financial and geopolitical text) and{" "}
+            <span className="font-semibold text-white">IndoBERT</span> for
+            Bahasa Indonesia headlines (trained on Indonesian text). The system
+            automatically detects the language and routes to the correct model.
+            Both replaced the earlier VADER analyzer for significantly better
+            accuracy — they understand context, nuance, and domain-specific
+            language that rule-based tools miss. The score ranges from -1.0 to
+            +1.0:
           </p>
           <div className="grid grid-cols-3 gap-3 text-center">
             <div className="bg-red-500/10 border border-red-500/30 rounded p-3">
@@ -199,7 +203,7 @@ export default function FAQ() {
       <div className="mt-12 text-center text-xs text-slate-600">
         &copy; Eberhard Ojong 2026 | KG Media Geopolitical Radar{" "}
         <a href="/changelog" className="text-blue-400 hover:text-blue-300 underline">
-          v1.0.4
+          v1.0.5
         </a>{" "}
         | KG Media News
       </div>

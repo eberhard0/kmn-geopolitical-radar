@@ -431,7 +431,7 @@ export default function Dashboard() {
       <div className="mt-8 text-center text-xs text-slate-600">
         &copy; Eberhard Ojong 2026 | KG Media Geopolitical Radar{" "}
         <a href="/changelog" className="text-blue-400 hover:text-blue-300 underline">
-          v1.0.4
+          v1.0.5
         </a>{" "}
         | Auto-refreshes every 30s | Cron scan daily |{" "}
         <a href="/faq" className="text-blue-400 hover:text-blue-300 underline">
