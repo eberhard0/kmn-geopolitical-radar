@@ -27,21 +27,38 @@ function scoreVader(text: string): SentimentResult {
   };
 }
 
-const INDONESIAN_WORDS = new Set([
+const INDONESIAN_STOPWORDS = new Set([
   "dan", "di", "yang", "untuk", "dari", "dengan", "ini", "itu", "pada",
   "adalah", "ke", "tidak", "akan", "juga", "sudah", "bisa", "ada", "oleh",
   "saat", "telah", "atau", "dalam", "lebih", "baru", "harus", "bahwa",
   "seperti", "karena", "mereka", "kami", "kita", "atas", "hingga", "setelah",
   "masih", "antara", "secara", "menjadi", "lagi", "tahun", "kata", "bagi",
   "tersebut", "serta", "namun", "tetapi", "sedang", "pemerintah", "negara",
-  "Indonesia", "jakarta", "presiden", "rakyat", "harga", "pemilu", "pilkada",
+  "indonesia", "jakarta", "presiden", "rakyat", "harga", "pemilu", "pilkada",
+  "terkait", "mengenai", "tentang", "sementara", "selama", "sebelum",
+  "kemudian", "dimana", "bagaimana", "mengapa", "siapa", "berapa",
+  "sangat", "begitu", "demikian", "yakni", "melalui", "terhadap",
+  "kepada", "menteri", "gubernur", "wakil", "ketua", "komisi",
 ]);
+
+const INDONESIAN_PATTERNS = /(?:nya|kan|lah|kah|tah|pun)(?:\s|$|-)|(?:^|\s)(?:meng|meny|mem|men|peng|peny|pem|pen|ber|ter|per|se|ke|di)\w{3,}/i;
 
 function isIndonesian(text: string): boolean {
   const words = text.toLowerCase().split(/\s+/);
   if (words.length === 0) return false;
-  const idCount = words.filter((w) => INDONESIAN_WORDS.has(w)).length;
-  return idCount / words.length > 0.15;
+
+  const stopwordCount = words.filter((w) => INDONESIAN_STOPWORDS.has(w)).length;
+  if (stopwordCount / words.length > 0.12) return true;
+
+  if (INDONESIAN_PATTERNS.test(text)) return true;
+
+  const idSuffixes = words.filter((w) =>
+    w.endsWith("nya") || w.endsWith("kan") || w.endsWith("kan,") ||
+    w.endsWith("asi") || w.endsWith("nya,") || w.endsWith("nya.")
+  ).length;
+  if (idSuffixes >= 2) return true;
+
+  return false;
 }
 
 function getHFHeaders(): Record<string, string> {
