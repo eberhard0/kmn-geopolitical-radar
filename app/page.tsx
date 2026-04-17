@@ -429,8 +429,11 @@ export default function Dashboard() {
 
       {/* Footer */}
       <div className="mt-8 text-center text-xs text-slate-600">
-        &copy; Eberhard Ojong 2026 | KG Media Geopolitical Radar v1.0 | Auto-refreshes every 30s | Cron scan
-        daily |{" "}
+        &copy; Eberhard Ojong 2026 | KG Media Geopolitical Radar{" "}
+        <a href="/changelog" className="text-blue-400 hover:text-blue-300 underline">
+          v1.0.3
+        </a>{" "}
+        | Auto-refreshes every 30s | Cron scan daily |{" "}
         <a href="/faq" className="text-blue-400 hover:text-blue-300 underline">
           FAQ
         </a>

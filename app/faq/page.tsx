@@ -179,7 +179,11 @@ export default function FAQ() {
 
       {/* Footer */}
       <div className="mt-12 text-center text-xs text-slate-600">
-        &copy; Eberhard Ojong 2026 | KG Media Geopolitical Radar v1.0 | KG Media News
+        &copy; Eberhard Ojong 2026 | KG Media Geopolitical Radar{" "}
+        <a href="/changelog" className="text-blue-400 hover:text-blue-300 underline">
+          v1.0.3
+        </a>{" "}
+        | KG Media News
       </div>
     </main>
   );
