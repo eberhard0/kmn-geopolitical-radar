@@ -45,7 +45,7 @@ export async function scrapeTopic(
         if (!link || seenUrls.has(link)) continue;
         seenUrls.add(link);
 
-        const sentiment = analyzeSentiment(title);
+        const sentiment = await analyzeSentiment(title);
 
         articles.push({
           topic: topicConfig.name,
