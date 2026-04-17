@@ -75,7 +75,7 @@ function getHFHeaders(): Record<string, string> {
 async function scoreFinBERT(text: string): Promise<SentimentResult> {
   try {
     const res = await fetch(
-      "https://api-inference.huggingface.co/models/ProsusAI/finbert",
+      "https://router.huggingface.co/hf-inference/models/ProsusAI/finbert",
       {
         method: "POST",
         headers: getHFHeaders(),
@@ -122,7 +122,7 @@ async function scoreFinBERT(text: string): Promise<SentimentResult> {
 async function scoreIndoBERT(text: string): Promise<SentimentResult> {
   try {
     const res = await fetch(
-      "https://api-inference.huggingface.co/models/w11wo/indonesian-roberta-base-sentiment-classifier",
+      "https://router.huggingface.co/hf-inference/models/w11wo/indonesian-roberta-base-sentiment-classifier",
       {
         method: "POST",
         headers: getHFHeaders(),
